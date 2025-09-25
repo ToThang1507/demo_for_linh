@@ -46,10 +46,26 @@
     <script src="./js/main.js"></script>
 
     <script>
+        let backgroundMusic;
+        
         function loadSound() {
-            var audio = new Audio('sound/s.mp3');
-            audio.play();
+            backgroundMusic = new Audio('sound/s.mp3');
+            backgroundMusic.loop = true;
+            backgroundMusic.volume = 0.5;
+            
+            // Try to play immediately, but handle autoplay restrictions
+            backgroundMusic.play().catch(function(error) {
+                console.log('Autoplay prevented:', error);
+                // Music will start when user interacts with the page
+            });
         }
+        
+        // Start music on first user interaction
+        document.addEventListener('click', function() {
+            if (backgroundMusic && backgroundMusic.paused) {
+                backgroundMusic.play();
+            }
+        }, { once: true });
     </script>
 </body>
 
